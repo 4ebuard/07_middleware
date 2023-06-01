@@ -4,22 +4,24 @@ const app = express()
 
 const port = process.env.PORT || 3300
 
-let blablaMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const blablaMiddleware = (req: Request, res: Response, next: NextFunction) => {
     //@ts-ignore
     req.blabla = "Hello";
     next();
 }
 
-app.get('/products', blablaMiddleware, (req: Request, res: Response) => {
+app.use(blablaMiddleware)
+
+app.get('/products', (req: Request, res: Response) => {
     //@ts-ignore
     const blabla = req.blabla;
     res.send({value: blabla + "!!!!"})
 })
 
-app.get('/users', blablaMiddleware, (req: Request, res: Response) => {
+app.get('/users', (req: Request, res: Response) => {
     //@ts-ignore
     const blabla = req.blabla;
-    res.send({value: blabla + "from users!!!!"})
+    res.send({value: blabla + " from users!!!!"})
 })
 
 //start app
