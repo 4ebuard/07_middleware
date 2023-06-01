@@ -18,19 +18,27 @@ const authGuardMiddleware = (req: Request, res: Response, next: NextFunction) =>
     next();
 }
 
+let requestCounter = 0
+
+const requestCounterMeddleware = (req: Request, res: Response, next: NextFunction) => {
+    requestCounter++;
+    next()
+}
+
+app.use(requestCounterMeddleware)
 app.use(blablaMiddleware)
 app.use(authGuardMiddleware)
 
 app.get('/products', (req: Request, res: Response) => {
     //@ts-ignore
     const blabla = req.blabla;
-    res.send({value: blabla + "!!!!"})
+    res.send({value: blabla + "!!!! " + requestCounter})
 })
 
 app.get('/users', (req: Request, res: Response) => {
     //@ts-ignore
     const blabla = req.blabla;
-    res.send({value: blabla + " from users!!!!"})
+    res.send({value: blabla + " from users!!!! " + requestCounter})
 })
 
 //start app
